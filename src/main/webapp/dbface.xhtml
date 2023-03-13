@@ -2,8 +2,8 @@
 <!--
   Created by IntelliJ IDEA.
   User: Anwender
-  Date: 12.03.2023
-  Time: 14:51
+  Date: 13.03.2023
+  Time: 21:06
 -->
 <!DOCTYPE html
         PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
@@ -17,15 +17,12 @@
 </h:head>
 
 <h:body>
-<h:form>
-    <h:inputText id="username" value="#{user.name}" required="true" requiredMessage="muss ausgefüllt sein"></h:inputText>
+<h:dataTable value="#{data.db}" var="db">
 
-    <h:commandButton action="#{user.greet()}" value="Submit"/>
-
-    <h:messages id="messages"></h:messages>
-
-
-</h:form>
+<h:column  >
+    <h:outputLabel value="#{db.name}" />
+</h:column>
+</h:dataTable>
 </h:body>
 
 </html>

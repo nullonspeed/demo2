@@ -3,6 +3,10 @@ package com.example.demo2;
 
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Named;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
+import model.Person;
 
 import java.io.PrintWriter;
 
@@ -39,8 +43,12 @@ public class user {
     public String greet(){
 
         System.out.println("Hello " + name);
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("default");
+        EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
+        em.persist(new Person(name, password));
+        em.getTransaction().commit();
 
-
-        return "index.jsp";
+        return "dbface.xhtml";
     }
 }
