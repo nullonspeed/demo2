@@ -4,9 +4,9 @@ import jakarta.persistence.*;
 
 import java.util.LinkedList;
 import java.util.List;
-
+//, uniqueConstraints = @UniqueConstraint(columnNames = "svn")
 @Entity
-@Table(name = "person")
+    @Table(name = "person")
 public class Person {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "Person_SEQ")
@@ -23,7 +23,9 @@ public class Person {
     }
 
     String name;
-    String password;
+
+    @Column(name="svn",nullable = false, unique = true)
+    String svn;
 
     @OneToMany( cascade = CascadeType.ALL, orphanRemoval = true)
     List<Eintraege> eintrag = new LinkedList<>();
@@ -40,9 +42,9 @@ public class Person {
     public Person() {
     }
 
-    public Person(String name, String password) {
+    public Person(String name, String svn) {
         this.name = name;
-        this.password = password;
+        this.svn = svn;
     }
 
     public String getName() {
@@ -53,12 +55,12 @@ public class Person {
         this.name = name;
     }
 
-    public String getPassword() {
-        return password;
+    public String getSvn() {
+        return svn;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setSvn(String svn) {
+        this.svn = svn;
     }
 
 }

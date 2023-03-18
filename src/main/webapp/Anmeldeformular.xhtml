@@ -17,8 +17,11 @@
 </h:head>
 
 <h:body>
+
 <h:form>
+
     <h:inputText id="username" value="#{user.name}" required="true" requiredMessage="muss ausgefüllt sein"></h:inputText>
+    <h:inputText id="sv" value="#{user.svn}" required="true" requiredMessage="muss auch ausgefüllt sein"></h:inputText>
 
     <h:commandButton action="#{user.greet()}" value="Submit"/>
 

@@ -1,27 +1,67 @@
 package com.example.demo2;
 
 
+import jakarta.annotation.PostConstruct;
+import jakarta.ejb.PostActivate;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Named;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
+import jakarta.inject.Singleton;
+import jakarta.persistence.*;
+import model.Eintraege;
 import model.Person;
 
 import java.io.PrintWriter;
+import java.util.List;
 
-@Named(value="user")
+@Named(value = "user")
 @RequestScoped
 public class user {
+    EntityManagerFactory emf = Persistence.createEntityManagerFactory("default");
+    EntityManager em = emf.createEntityManager();
+    Person z ;
 
-    public user() {}
+
+
+
+
+    @PostConstruct
+    public void init() {
+        if (em.find(Person.class, 1) == null) {
+
+
+            Person p1 = new Person("John", "123");
+            Person p2 = new Person("simon", "1234");
+            Eintraege e1 = new Eintraege("Eintrag 1");
+
+            p1.getEintrag().add(e1);
+            em.getTransaction().begin();
+            em.persist(p1);
+            em.persist(p2);
+            em.getTransaction().commit();
+        }
+
+
+    }
+
+    public user() {
+
+
+    }
 
     String name;
-    String password;
+    String svn;
 
-    public user(String name, String password) {
+    public String getSvn() {
+        return svn;
+    }
+
+    public void setSvn(String svn) {
+        this.svn = svn;
+    }
+
+    public user(String name, String svn) {
         this.name = name;
-        this.password = password;
+        this.svn = svn;
     }
 
     public String getName() {
@@ -32,23 +72,31 @@ public class user {
         this.name = name;
     }
 
-    public String getPassword() {
-        return password;
-    }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+    public String greet() {
 
-    public String greet(){
 
-        System.out.println("Hello " + name);
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("default");
-        EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
-        em.persist(new Person(name, password));
-        em.getTransaction().commit();
+
+        Query q = em.createQuery("select p from Person p where p.name = :val1 and p.svn = :val2");
+        q.setParameter("val1", name);
+        q.setParameter("val2", svn);
+        if (q.getResultList().size() > 0) {
+            z= em.find(Person.class, svn);
+        } else {
+
+            try
+            {
+                z=new Person(name, svn);
+                em.getTransaction().begin();
+                em.persist(z);
+                em.getTransaction().commit();
+            }
+            catch (Exception e){
+             return "Anmeldeforumular.xhtml";
+            }
+        }
 
         return "dbface.xhtml";
+
     }
 }

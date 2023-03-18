@@ -17,12 +17,17 @@
 </h:head>
 
 <h:body>
+
+    <h1>#{user.name} </h1>
+
 <h:dataTable value="#{data.db}" var="db">
 
 <h:column  >
     <h:outputLabel value="#{db.name}" />
 </h:column>
 </h:dataTable>
+
+
 </h:body>
 
 </html>

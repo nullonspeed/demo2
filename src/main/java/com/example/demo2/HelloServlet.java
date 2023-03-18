@@ -21,7 +21,8 @@ public class HelloServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("text/html");
 
- //make an entity manager for default with 2 persons
+
+        /*
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("default");
         EntityManager em = emf.createEntityManager();
         Person p1 = new Person("John", "Doe");
@@ -33,6 +34,8 @@ public class HelloServlet extends HttpServlet {
         em.persist(p2);
         em.getTransaction().commit();
         em.close();
+        */
+
 
 
         response.sendRedirect("Anmeldeformular.xhtml");
